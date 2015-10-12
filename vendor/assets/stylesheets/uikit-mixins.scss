@@ -30,8 +30,8 @@
 @mixin hook-form-advanced-disabled(){}
 @mixin hook-form-advanced-misc(){}
 @mixin hook-form-file-misc(){}
-@mixin hook-form-password-misc(){}
 @mixin hook-form-select-misc(){}
+@mixin hook-form-password-misc(){}
 @mixin hook-htmleditor(){}
 @mixin hook-htmleditor-navbar(){}
 @mixin hook-htmleditor-navbar-nav(){}
@@ -150,6 +150,8 @@
 @mixin hook-close(){}
 @mixin hook-close-alt(){}
 @mixin hook-close-misc(){}
+@mixin hook-column(){}
+@mixin hook-column-misc(){}
 @mixin hook-comment(){}
 @mixin hook-comment-header(){}
 @mixin hook-comment-avatar(){}
@@ -189,6 +191,7 @@
 @mixin hook-description-list-misc(){}
 @mixin hook-dropdown(){}
 @mixin hook-dropdown-navbar(){}
+@mixin hook-dropdown-overlay(){}
 @mixin hook-dropdown-misc(){}
 @mixin hook-flex-misc(){}
 @mixin hook-form(){}

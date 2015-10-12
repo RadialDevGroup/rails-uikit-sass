@@ -1,4 +1,4 @@
-/*! UIkit 2.21.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+/*! UIkit 2.23.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
 /*
  * Based on simplePagination - Copyright (c) 2012 Flavius Matis - http://flaviusmatis.github.com/simplePagination.js/ (MIT)
  */
@@ -26,9 +26,9 @@
             items          : 1,
             itemsOnPage    : 1,
             pages          : 0,
-            displayedPages : 3,
-            edges          : 3,
-            currentPage    : 1,
+            displayedPages : 7,
+            edges          : 1,
+            currentPage    : 0,
             lblPrev        : false,
             lblNext        : false,
             onSelectPage   : function() {}
@@ -54,7 +54,7 @@
             var $this = this;
 
             this.pages         = this.options.pages ?  this.options.pages : Math.ceil(this.options.items / this.options.itemsOnPage) ? Math.ceil(this.options.items / this.options.itemsOnPage) : 1;
-            this.currentPage   = this.options.currentPage - 1;
+            this.currentPage   = this.options.currentPage;
             this.halfDisplayed = this.options.displayedPages / 2;
 
             this.on("click", "a[data-page]", function(e){

@@ -1,4 +1,4 @@
-/*! UIkit 2.21.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+/*! UIkit 2.23.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
 (function(addon) {
     var component;
 
@@ -28,11 +28,10 @@
             "delay": 0, // in miliseconds
             "cls": "",
             "activeClass": "uk-active",
-            "src": function(ele, title) {
+            "src": function(ele) {
+                var title = ele.attr('title');
 
-                title = ele.attr('title');
-
-                if (title) {
+                if (title !== undefined) {
                     ele.data('cached-title', title).removeAttr('title');
                 }
 
