@@ -1,4 +1,4 @@
-/*! UIkit 2.23.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+/*! UIkit 2.26.4 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
 (function(UI) {
 
     "use strict";
@@ -7,14 +7,14 @@
         'x': {
             "bottom-left"   : 'bottom-right',
             "bottom-right"  : 'bottom-left',
-            "bottom-center" : 'bottom-right',
+            "bottom-center" : 'bottom-center',
             "top-left"      : 'top-right',
             "top-right"     : 'top-left',
-            "top-center"    : 'top-right',
-            "left-top"      : 'right',
+            "top-center"    : 'top-center',
+            "left-top"      : 'right-top',
             "left-bottom"   : 'right-bottom',
             "left-center"   : 'right-center',
-            "right-top"     : 'left',
+            "right-top"     : 'left-top',
             "right-bottom"  : 'left-bottom',
             "right-center"  : 'left-center'
         },
@@ -25,15 +25,26 @@
             "top-left"      : 'bottom-left',
             "top-right"     : 'bottom-right',
             "top-center"    : 'bottom-center',
-            "left-top"      : 'top-left',
-            "left-bottom"   : 'left-bottom',
-            "left-center"   : 'top-left',
-            "right-top"     : 'top-left',
-            "right-bottom"  : 'bottom-left',
-            "right-center"  : 'top-left'
+            "left-top"      : 'left-bottom',
+            "left-bottom"   : 'left-top',
+            "left-center"   : 'left-center',
+            "right-top"     : 'right-bottom',
+            "right-bottom"  : 'right-top',
+            "right-center"  : 'right-center'
         },
         'xy': {
-
+            "bottom-left"   : 'top-right',
+            "bottom-right"  : 'top-left',
+            "bottom-center" : 'top-center',
+            "top-left"      : 'bottom-right',
+            "top-right"     : 'bottom-left',
+            "top-center"    : 'bottom-center',
+            "left-top"      : 'right-bottom',
+            "left-bottom"   : 'right-top',
+            "left-center"   : 'right-center',
+            "right-top"     : 'left-bottom',
+            "right-bottom"  : 'left-top',
+            "right-center"  : 'left-center'
         }
     };
 
@@ -48,7 +59,8 @@
            'boundary'        : UI.$win,
            'delay'           : 0,
            'dropdownSelector': '.uk-dropdown,.uk-dropdown-blank',
-           'hoverDelayIdle'  : 250
+           'hoverDelayIdle'  : 250,
+           'preventflip'     : false
         },
 
         remainIdle: false,
@@ -113,7 +125,7 @@
 
             if (this.options.mode == "click" || UI.support.touch) {
 
-                this.on("click.uikit.dropdown", function(e) {
+                this.on("click.uk.dropdown", function(e) {
 
                     var $target = UI.$(e.target);
 
@@ -189,6 +201,9 @@
                     }
 
                     if (active && active == $this) {
+                        if (!$this.dropdown.find(e.target).length || $target.is(".uk-dropdown-close") || $target.parents(".uk-dropdown-close").length) {
+                            $this.hide();
+                        }
                         return;
                     }
 
@@ -293,11 +308,11 @@
                 pos            = UI.$.extend({}, this.offsetParent.offset(), {width: this.offsetParent[0].offsetWidth, height: this.offsetParent[0].offsetHeight}),
                 posoffset      = this.options.offset,
                 dropdown       = this.dropdown,
-                offset         = dropdown.show().offset(),
+                offset         = dropdown.show().offset() || {left: 0, top: 0},
                 width          = dropdown.outerWidth(),
                 height         = dropdown.outerHeight(),
                 boundarywidth  = this.boundary.width(),
-                boundaryoffset = this.boundary.offset() ? this.boundary.offset(): {top:0, left:0},
+                boundaryoffset = this.boundary[0] !== window && this.boundary.offset() ? this.boundary.offset(): {top:0, left:0},
                 dpos           = this.options.pos;
 
             var variants =  {
@@ -325,21 +340,34 @@
                 justify(dropdown.css({left:0}), this.justified, boundarywidth);
             } else {
 
-                switch(this.checkBoundary(pos.left + css.left, pos.top + css.top, width, height, boundarywidth)) {
+                if (this.options.preventflip !== true) {
 
-                    case "x":
-                        dpos = flips['x'][dpos] || 'right-top';
-                        break;
-                    case "y":
-                        dpos = flips['y'][dpos] || 'top-left';
-                        break;
-                    case "xy":
-                        dpos = flips['xy'][dpos] || 'right-bottom';
-                        break;
+                    var fdpos;
+
+                    switch(this.checkBoundary(pos.left + css.left, pos.top + css.top, width, height, boundarywidth)) {
+                        case "x":
+                            if(this.options.preventflip !=='x') fdpos = flips['x'][dpos] || 'right-top';
+                            break;
+                        case "y":
+                            if(this.options.preventflip !=='y') fdpos = flips['y'][dpos] || 'top-left';
+                            break;
+                        case "xy":
+                            if(!this.options.preventflip) fdpos = flips['xy'][dpos] || 'right-bottom';
+                            break;
+                    }
+
+                    if (fdpos) {
+
+                        pp  = fdpos.split('-');
+                        css = variants[fdpos] ? variants[fdpos] : variants['bottom-left'];
+
+                        // check flipped
+                        if (this.checkBoundary(pos.left + css.left, pos.top + css.top, width, height, boundarywidth)) {
+                            pp  = dpos.split('-');
+                            css = variants[dpos] ? variants[dpos] : variants['bottom-left'];
+                        }
+                    }
                 }
-
-                pp = dpos.split('-');
-                css = variants[dpos] ? variants[dpos] : variants['bottom-left'];
             }
 
             if (width > boundarywidth) {
@@ -358,7 +386,7 @@
                axis += "x";
             }
 
-            if (top < 0 || ((top - UI.$win.scrollTop())+height) > window.innerHeight) {
+            if ((top - UI.$win.scrollTop()) < 0 || ((top - UI.$win.scrollTop())+height) > window.innerHeight) {
                axis += "y";
             }
 
