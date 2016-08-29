@@ -1,4 +1,4 @@
-/*! UIkit 2.23.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+/*! UIkit 2.26.4 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
 (function(addon) {
 
     var component;
@@ -63,7 +63,7 @@
                 // filter
                 this.controls.on('click', '[data-uk-filter]', function(e){
                     e.preventDefault();
-                    $this.filter(UI.$(this).data('ukFilter'));
+                    $this.filter(UI.$(this).attr('data-uk-filter'));
                 });
 
                 // sort
@@ -88,7 +88,7 @@
                 if ($this.element.is(":visible"))  $this.updateLayout();
             });
 
-            UI.$html.on("changed.uk.dom", function(e) {
+            UI.domObserve(this.element, function(e) {
                 $this.updateLayout();
             });
 
@@ -228,6 +228,10 @@
 
             filter = filter || [];
 
+            if (typeof(filter) === 'number') {
+                filter = filter.toString();
+            }
+
             if (typeof(filter) === 'string') {
                 filter = filter.split(/,/).map(function(item){ return item.trim(); });
             }
@@ -299,7 +303,7 @@
     * MIT license
     * https://github.com/desandro/get-size
     */
-    var _getSize = (function(){
+    function _getSize() {
 
         var prefixes = 'Webkit Moz ms Ms O'.split(' ');
         var docElemStyle = document.documentElement.style;
@@ -515,9 +519,9 @@
 
         return getSize;
 
-    })();
+    }
 
     function getElementSize(ele) {
-        return _getSize(ele);
+        return _getSize()(ele);
     }
 });

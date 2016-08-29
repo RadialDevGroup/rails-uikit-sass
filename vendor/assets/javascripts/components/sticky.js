@@ -1,4 +1,4 @@
-/*! UIkit 2.23.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+/*! UIkit 2.26.4 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
 (function(addon) {
 
     var component;
@@ -69,7 +69,7 @@
 
                         var $ele = UI.$(this);
 
-                        if(!$ele.data("sticky")) {
+                        if (!$ele.data("sticky")) {
                             UI.sticky($ele, UI.Utils.options($ele.attr('data-uk-sticky')));
                         }
                     });
@@ -81,17 +81,23 @@
 
         init: function() {
 
-            var wrapper  = UI.$('<div class="uk-sticky-placeholder"></div>'), boundary = this.options.boundary, boundtoparent;
+            var boundary = this.options.boundary, boundtoparent;
 
-            this.wrapper = this.element.css('margin', 0).wrap(wrapper).parent();
-
+            this.wrapper = this.element.wrap('<div class="uk-sticky-placeholder"></div>').parent();
             this.computeWrapper();
+            this.wrapper.css({
+                'margin-top'    : this.element.css('margin-top'),
+                'margin-bottom' : this.element.css('margin-bottom'),
+                'margin-left'   : this.element.css('margin-left'),
+                'margin-right'  : this.element.css('margin-right')
+            })
+            this.element.css('margin', 0);
 
             if (boundary) {
 
-                if (boundary === true) {
+                if (boundary === true || boundary[0] === '!') {
 
-                    boundary      = this.wrapper.parent();
+                    boundary      = boundary === true ? this.wrapper.parent() : this.wrapper.closest(boundary.substr(1));
                     boundtoparent = true;
 
                 } else if (typeof boundary === "string") {
@@ -106,7 +112,7 @@
                 currentTop    : null,
                 wrapper       : this.wrapper,
                 init          : false,
-                getWidthFrom  : this.options.getWidthFrom || this.wrapper,
+                getWidthFrom  : UI.$(this.options.getWidthFrom || this.wrapper),
                 boundary      : boundary,
                 boundtoparent : boundtoparent,
                 top           : 0,
@@ -134,7 +140,8 @@
 
                     this.top = top;
                 },
-                reset         : function(force) {
+
+                reset: function(force) {
 
                     this.calcTop();
 
@@ -146,6 +153,7 @@
 
                         this.currentTop = null;
                         this.animate    = false;
+
                     }.bind(this);
 
 
@@ -232,10 +240,15 @@
         computeWrapper: function() {
 
             this.wrapper.css({
-                'height' : ['absolute','fixed'].indexOf(this.element.css('position')) == -1 ? this.element.outerHeight() : '',
-                'float'  : this.element.css('float') != 'none' ? this.element.css('float') : '',
-                'margin' : this.element.css('margin')
+                'height'        : ['absolute','fixed'].indexOf(this.element.css('position')) == -1 ? this.element.outerHeight() : '',
+                'float'         : this.element.css('float') != 'none' ? this.element.css('float') : ''
             });
+
+            if (this.element.css('position') == 'fixed') {
+                this.element.css({
+                    width: this.sticky.getWidthFrom.length ? this.sticky.getWidthFrom.width() : this.element.width()
+                });
+            }
         }
     });
 
@@ -283,7 +296,7 @@
                     if (sticky.boundtoparent) {
                         containerBottom = documentHeight - (bTop + sticky.boundary.outerHeight()) + parseInt(sticky.boundary.css('padding-bottom'));
                     } else {
-                        containerBottom = documentHeight - bTop - parseInt(sticky.boundary.css('margin-top'));
+                        containerBottom = documentHeight - bTop;
                     }
 
                     newTop = (scrollTop + stickyHeight) > (documentHeight - containerBottom - (sticky.top < 0 ? 0 : sticky.top)) ? (documentHeight - containerBottom) - (scrollTop + stickyHeight) : newTop;
@@ -293,10 +306,9 @@
                 if (sticky.currentTop != newTop) {
 
                     sticky.element.css({
-                        "position" : "fixed",
-                        "top"      : newTop,
-                        "width"    : (typeof sticky.getWidthFrom !== 'undefined') ? UI.$(sticky.getWidthFrom).width() : sticky.element.width(),
-                        "left"     : sticky.wrapper.offset().left
+                        position : "fixed",
+                        top      : newTop,
+                        width    : sticky.getWidthFrom.length ? sticky.getWidthFrom.width() : sticky.element.width()
                     });
 
                     if (!sticky.init) {
