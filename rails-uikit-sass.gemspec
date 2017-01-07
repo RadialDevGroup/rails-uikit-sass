@@ -3,7 +3,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 Gem::Specification.new do |spec|
   spec.name          = "rails-uikit-sass"
-  spec.version       = "0.1.1"
+  spec.version       = "2.27.2"
   spec.authors       = ["Benjamin West", "Marshall Smith", "Steve Smith"]
   spec.email         = ["code@radialdevgroup.com"]
 
