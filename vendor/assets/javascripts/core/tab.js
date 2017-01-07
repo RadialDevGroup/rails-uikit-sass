@@ -91,7 +91,7 @@
 
             // init UIkit components
             if (this.options.connect) {
-
+                
                 this.switcher = UI.switcher(this.element, {
                     toggle    : '>li:not(.uk-tab-responsive)',
                     connect   : this.options.connect,

@@ -482,7 +482,7 @@
     });
 
 
-    UI.plugin('lightbox', 'iframe', {
+    UIkit.plugin('lightbox', 'iframe', {
 
         init: function (lightbox) {
 
