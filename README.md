@@ -20,9 +20,18 @@ Or install it yourself as:
 
 ## Usage
 
-```
+```scss
   # app/assets/stylesheets/application.scss
   @import "rails-uikit-sass";
+```
+
+To customize, include the UIKit mixins, then add your customizations, then import UIkit.
+
+```scss
+  # app/assets/stylesheets/application.scss
+  @import "uikit-mixins";
+  @import "my-custom-variables-and-hooks";
+  @import "uikit";
 ```
 
 ## Troubleshooting
