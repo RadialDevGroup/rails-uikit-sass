@@ -5,7 +5,7 @@
 
         define('uikit', function(){
 
-            var uikit = window.UIkit2 || core(window, window.jQuery, window.document);
+            var uikit = window.UIkit || core(window, window.jQuery, window.document);
 
             uikit.load = function(res, req, onload, config) {
 
@@ -33,7 +33,7 @@
         throw new Error('UIkit 2.x requires jQuery');
     }
 
-    if (window && window.jQuery && !window.UIkit2) {
+    if (window && window.jQuery && !window.UIkit) {
         core(window, window.jQuery, window.document);
     }
 
@@ -56,7 +56,7 @@
         return UI;
     };
 
-    global.UIkit2 = UI;
+    global.UIkit = UI;
 
     if (!_UI) {
         global.UIkit = UI;

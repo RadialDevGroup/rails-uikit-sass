@@ -150,4 +150,4 @@
         return height;
     }
 
-})(UIkit2);
+})(UIkit);

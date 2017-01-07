@@ -5,7 +5,7 @@
 
         define('uikit', function(){
 
-            var uikit = window.UIkit2 || core(window, window.jQuery, window.document);
+            var uikit = window.UIkit || core(window, window.jQuery, window.document);
 
             uikit.load = function(res, req, onload, config) {
 
@@ -33,7 +33,7 @@
         throw new Error('UIkit 2.x requires jQuery');
     }
 
-    if (window && window.jQuery && !window.UIkit2) {
+    if (window && window.jQuery && !window.UIkit) {
         core(window, window.jQuery, window.document);
     }
 
@@ -56,7 +56,7 @@
         return UI;
     };
 
-    global.UIkit2 = UI;
+    global.UIkit = UI;
 
     if (!_UI) {
         global.UIkit = UI;
@@ -1330,7 +1330,7 @@
         return val;
     }
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -1392,7 +1392,7 @@
         UI.$.easing.easeOutExpo = function(x, t, b, c, d) { return (t == d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b; };
     }
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -1601,7 +1601,7 @@
         }
     });
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI){
 
@@ -1725,7 +1725,7 @@
         }
     });
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -1791,7 +1791,7 @@
 
     });
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -1947,7 +1947,7 @@
         }
     });
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -2481,7 +2481,7 @@
         }
     }
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -2598,7 +2598,7 @@
         }
     });
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -2977,7 +2977,7 @@
                 content = UI.$('<div></div>').html(content);
         }else {
                 // unsupported data type!
-                content = UI.$('<div></div>').html('UIkit2.modal Error: Unsupported data type: ' + typeof content);
+                content = UI.$('<div></div>').html('UIkit.modal Error: Unsupported data type: ' + typeof content);
         }
 
         content.appendTo(modal.element.find('.uk-modal-dialog'));
@@ -2985,7 +2985,7 @@
         return modal;
     }
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -3138,7 +3138,7 @@
         return height;
     }
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -3335,7 +3335,7 @@
 
     UI.offcanvas = Offcanvas;
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -3642,7 +3642,7 @@
         return d.promise();
     }
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI) {
 
@@ -3811,7 +3811,7 @@
         }
     });
 
-})(UIkit2);
+})(UIkit);
 
 (function(UI){
 
@@ -3898,4 +3898,4 @@
         }
     });
 
-})(UIkit2);
+})(UIkit);
