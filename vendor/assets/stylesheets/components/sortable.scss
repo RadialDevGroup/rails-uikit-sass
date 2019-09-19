@@ -1,21 +1,15 @@
 // Name:            Sortable
-// Description:     Defines styles for sortable grids and lists
+// Description:     Component to create sortable grids and lists
 //
 // Component:       `uk-sortable`
 //
-// Sub-objects:     `uk-sortable-handle`
-//                  `uk-sortable-moving`
-//
-// Modifier:        `uk-sortable-dragged`
+// Sub-objects:     `uk-sortable-drag`
 //                  `uk-sortable-placeholder`
+//                  `uk-sortable-handle`
 //
-// Markup:
+// Modifiers:       `uk-sortable-empty`
 //
-// <!-- uk-sortable -->
-// <ul class="uk-sortable" data-uk-sortable>
-//     <li></li>
-//     <li></li>
-// </ul>
+// States:          `uk-drag`
 //
 // ========================================================================
 
@@ -23,11 +17,11 @@
 // Variables
 // ========================================================================
 
-$sortable-dragged-z-index:                       1050 !default;
+$sortable-dragged-z-index:                       $global-z-index + 50 !default;
 
 $sortable-placeholder-opacity:                   0 !default;
 
-$sortable-empty-height:                          30px !default;
+$sortable-empty-height:                          50px !default;
 
 
 /* ========================================================================
@@ -36,22 +30,14 @@ $sortable-empty-height:                          30px !default;
 
 .uk-sortable {
     position: relative;
-    @include hook-sortable();
+    @if(mixin-exists(hook-sortable)) {@include hook-sortable();}
 }
 
 /*
- * Deactivate browser touch actions in IE11
+ * Deactivate pointer-events on SVGs in Safari
  */
 
-.uk-sortable > * { touch-action: none; }
-
-/*
- * Disables the default callout shown when you touch and hold a touch target
- * Currently only works in Webkit
- */
-
-.uk-sortable a,
-.uk-sortable img { -webkit-touch-callout: none; }
+.uk-sortable svg { pointer-events: none; }
 
 /*
  * Remove margin from the last-child
@@ -60,65 +46,51 @@ $sortable-empty-height:                          30px !default;
 .uk-sortable > :last-child { margin-bottom: 0; }
 
 
-/* Sub-modifier `uk-sortable-dragged`
+/* Drag
  ========================================================================== */
 
-.uk-sortable-dragged {
-    position: absolute;
-    z-index: $sortable-dragged-z-index;
+.uk-sortable-drag {
+    position: absolute !important;
+    z-index: $sortable-dragged-z-index !important;
     pointer-events: none;
-    @include hook-sortable-dragged();
+    @if(mixin-exists(hook-sortable-drag)) {@include hook-sortable-drag();}
 }
 
 
-/* Sub-modifier `uk-sortable-placeholder`
+/* Placeholder
  ========================================================================== */
 
 .uk-sortable-placeholder {
     opacity: $sortable-placeholder-opacity;
-    @include hook-sortable-placeholder();
+    pointer-events: none;
+    @if(mixin-exists(hook-sortable-placeholder)) {@include hook-sortable-placeholder();}
 }
 
 
-/* Empty List
+/* Empty modifier
  ========================================================================== */
 
 .uk-sortable-empty {
     min-height: $sortable-empty-height;
-    @include hook-sortable-empty();
+    @if(mixin-exists(hook-sortable-empty)) {@include hook-sortable-empty();}
 }
 
 
-/* Sub-object `uk-sortable-handle`
+/* Handle
  ========================================================================== */
-
-/*
- * Deactivate browser touch actions in IE11
- */
-
-.uk-sortable-handle { touch-action: none; }
 
 /* Hover */
 .uk-sortable-handle:hover { cursor: move; }
 
 
-/* Sub-object `uk-sortable-moving`
- ========================================================================== */
-
-.uk-sortable-moving,
-/* Needed if moving over links or buttons */
-.uk-sortable-moving * { cursor: move; }
-/* Fixes dragging items over iframes */
-.uk-sortable-moving iframe { pointer-events: none; }
-
 
 // Hooks
 // ========================================================================
 
-@include hook-sortable-misc();
+@if(mixin-exists(hook-sortable-misc)) {@include hook-sortable-misc();}
 
 // @mixin hook-sortable(){}
-// @mixin hook-sortable-dragged(){}
+// @mixin hook-sortable-drag(){}
 // @mixin hook-sortable-placeholder(){}
 // @mixin hook-sortable-empty(){}
 // @mixin hook-sortable-misc(){}

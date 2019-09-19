@@ -1,9 +1,7 @@
 // Name:            Placeholder
-// Description:     Defines styles for placeholder boxes
+// Description:     Component to create placeholder boxes
 //
 // Component:       `uk-placeholder`
-//
-// Modifiers:       `uk-placeholder-large`
 //
 // ========================================================================
 
@@ -11,13 +9,10 @@
 // Variables
 // ========================================================================
 
-$placeholder-margin-vertical:                    15px !default;
-$placeholder-padding:                            20px !default;
-$placeholder-border:                             #ddd !default;
-$placeholder-background:                         #fafafa !default;
-$placeholder-color:                              #444 !default;
-
-$placeholder-large-padding-vertical:             80px !default;
+$placeholder-margin-vertical:                    $global-margin !default;
+$placeholder-padding-vertical:                   $global-gutter !default;
+$placeholder-padding-horizontal:                 $global-gutter !default;
+$placeholder-background:                         $global-muted-background !default;
 
 
 /* ========================================================================
@@ -26,17 +21,12 @@ $placeholder-large-padding-vertical:             80px !default;
 
 .uk-placeholder {
     margin-bottom: $placeholder-margin-vertical;
-    padding: $placeholder-padding;
-    border: 1px dashed $placeholder-border;
+    padding: $placeholder-padding-vertical $placeholder-padding-horizontal;
     background: $placeholder-background;
-    color: $placeholder-color;
-    @include hook-placeholder();
+    @if(mixin-exists(hook-placeholder)) {@include hook-placeholder();}
 }
 
-/*
- * Add margin if adjacent element
- */
-
+/* Add margin if adjacent element */
 * + .uk-placeholder { margin-top: $placeholder-margin-vertical; }
 
 /*
@@ -46,21 +36,10 @@ $placeholder-large-padding-vertical:             80px !default;
 .uk-placeholder > :last-child { margin-bottom: 0; }
 
 
-/* Modifier: `uk-placeholder-large`
- ========================================================================== */
-
-.uk-placeholder-large {
-    padding-top: $placeholder-large-padding-vertical;
-    padding-bottom: $placeholder-large-padding-vertical;
-    @include hook-placeholder-large();
-}
-
-
 // Hooks
 // ========================================================================
 
-@include hook-placeholder-misc();
+@if(mixin-exists(hook-placeholder-misc)) {@include hook-placeholder-misc();}
 
 // @mixin hook-placeholder(){}
-// @mixin hook-placeholder-large(){}
 // @mixin hook-placeholder-misc(){}
